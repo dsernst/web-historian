@@ -1,5 +1,6 @@
 archives/*
 archives/*.txt
+workers/CRONLOG
 
 ###OSX###
 

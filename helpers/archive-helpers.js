@@ -9,10 +9,10 @@ var http = require('http')
  * customize it in any way you wish.
  */
 
-exports.paths = {
+exports.paths = paths = {
   'siteAssets' : path.join(__dirname, '../web/public'),
-  'archivedSites' : path.join(__dirname, '../archives/sites'),
-  'list' : './archives/sites.txt'
+  'archivedSites' : path.join(__dirname, '../archives/sites/'),
+  'list' : path.join(__dirname, '../archives/sites.txt')
 };
 
 // Used for stubbing paths for jasmine tests, do not modify
@@ -26,7 +26,7 @@ exports.initialize = function(pathsObj){
 // modularize your code. Keep it clean!
 
 exports.readListOfUrls = readListOfUrls = function(cb){
-  fs.readFile('./archives/sites.txt', 'utf8', function(err, data) {
+  fs.readFile(paths.list, 'utf8', function(err, data) {
     var list = data.split('\n')
     list.pop()
     cb(list)
@@ -47,7 +47,7 @@ exports.addUrlToList = function(){
 };
 
 exports.isURLArchived = function(url, cb){
-  fs.exists('./archives/sites' + url, cb)
+  fs.exists(paths.archivedSites + url, cb)
 };
 
 exports.downloadUrls = function(url){
@@ -60,7 +60,7 @@ exports.downloadUrls = function(url){
       fullChunk += chunk
     })
     res.on('end', function(){
-      fs.writeFile('./archives/sites/' + url, fullChunk, function(err){
+      fs.writeFile(paths.archivedSites + url, fullChunk, function(err){
         if(err){
           throw err
         } else{
@@ -76,5 +76,5 @@ exports.downloadUrls = function(url){
 }
 
 exports.clearSitesList = function() {
-  fs.writeFile('./archives/sites.txt', '')
+  fs.writeFile(paths.list, '')
 }
