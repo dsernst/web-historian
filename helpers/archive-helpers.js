@@ -34,7 +34,8 @@ exports.isUrlInList = function(){
 exports.addUrlToList = function(){
 };
 
-exports.isURLArchived = function(){
+exports.isURLArchived = function(url, cb){
+  fs.exists('./archives/sites' + url, cb)
 };
 
 exports.downloadUrls = function(){

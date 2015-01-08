@@ -30,7 +30,9 @@ exports.post = {
       chunkedData += chunk
     })
     req.on('end', function(){
+      res.writeHead(201)
       console.log(chunkedData)
+      res.end()
     })
   }
 }
