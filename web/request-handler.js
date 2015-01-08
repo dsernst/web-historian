@@ -25,7 +25,13 @@ exports.handleRequest = function (req, res) {
             res.end(data)
           })
         } else {
-          return404()
+          archive.isUrlInList(req.url, function(isInList){
+            if (isInList) {
+              get['/loading.html'](req, res)
+            } else {
+              return404()
+            }
+          })
         }
       })
     }
