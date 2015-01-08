@@ -7,18 +7,14 @@ exports.handleRequest = function (req, res) {
   console.log(req.method + " " + req.url)
   var publicPath = './web/public'
 
+  var routes = {
+    '/': '/index.html',
+    '/styles.css': '/styles.css'
+  }
+
   if (req.method === 'GET') {
-    if (req.url === '/') {
-      fs.readFile(publicPath + '/index.html', function(err, data) {
-        if (err) {
-          throw err
-        } else {
-          res.writeHead(200)
-          res.end(data)
-        }
-      })
-    } else if (req.url === '/styles.css') {
-      fs.readFile(publicPath + '/styles.css', function(err, data) {
+    if (routes[req.url] !== undefined) {
+      fs.readFile(publicPath + routes[req.url], function(err, data) {
         if (err) {
           throw err
         } else {
