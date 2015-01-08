@@ -17,7 +17,7 @@ exports.handleRequest = function (req, res) {
     if (get.hasOwnProperty(req.url)) {
       get[req.url](req, res)
     } else {
-      archive.isURLArchived(req.url, function (exists) {
+      archive.isUrlArchived(req.url, function (exists) {
         if (exists) {
           console.log('-> found an archive')
           res.writeHead(200)

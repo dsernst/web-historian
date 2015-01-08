@@ -46,7 +46,7 @@ exports.isUrlInList = function(url, cb){
 exports.addUrlToList = function(){
 };
 
-exports.isURLArchived = function(url, cb){
+exports.isUrlArchived = function(url, cb){
   fs.exists(paths.archivedSites + url, cb)
 };
 
