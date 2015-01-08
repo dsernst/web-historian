@@ -65,17 +65,18 @@ describe("Node Server Request Listener Function", function() {
   });
 
   it("Should append submitted sites to 'sites.txt'", function(done) {
+    var betterPath = './archives/sites.txt'
     var url = "www.example.com";
     var req = new stubs.Request("/", "POST", {url: url});
 
     // Reset the test file and process request
-    fs.writeFileSync(archive.paths.list, "");
+    fs.writeFileSync(betterPath, "");
     handler.handleRequest(req, res);
 
     waitForThen(
       function() { return res._ended; },
       function(){
-        var fileContents = fs.readFileSync(archive.paths.list, 'utf8');
+        var fileContents = fs.readFileSync(betterPath, 'utf8');
         expect(res._responseCode).to.equal(302);
         expect(fileContents).to.equal(url + "\n");
         done();
