@@ -28,6 +28,7 @@ exports.initialize = function(pathsObj){
 exports.readListOfUrls = readListOfUrls = function(cb){
   fs.readFile('./archives/sites.txt', 'utf8', function(err, data) {
     var list = data.split('\n')
+    list.pop()
     cb(list)
   })
 };
@@ -57,10 +58,8 @@ exports.downloadUrls = function(url){
     var fullChunk = '';
     res.on('data', function (chunk) {
       fullChunk += chunk
-      console.log('BODY: ' + chunk)
     })
     res.on('end', function(){
-      console.log(fullChunk)
       fs.writeFile('./archives/sites/' + url, fullChunk, function(err){
         if(err){
           throw err
@@ -76,3 +75,6 @@ exports.downloadUrls = function(url){
   req.end()
 }
 
+exports.clearSitesList = function() {
+  fs.writeFile('./archives/sites.txt', '')
+}
