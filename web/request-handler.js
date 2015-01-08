@@ -4,7 +4,7 @@ var fs = require('fs');
 // require more modules/folders here!
 
 exports.handleRequest = function (req, res) {
-  console.log("Serving " + req.url + " with method " + req.method)
+  console.log(req.method + " " + req.url)
   var publicPath = './web/public'
 
   if (req.method === 'GET') {
@@ -30,6 +30,14 @@ exports.handleRequest = function (req, res) {
       res.writeHead(404)
       res.end()
     }
+  } else if (req.method === 'POST') {
+    var chunkedData = ''
+    req.on('data', function(chunk) {
+      chunkedData += chunk
+    })
+    req.on('end', function(){
+      console.log(chunkedData)
+    })
   }
   // res.end(archive.paths.list);
 }
