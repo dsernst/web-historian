@@ -13,7 +13,7 @@ exports.post = {
       chunkedData += chunk
     })
     req.on('end', function(){
-      res.writeHead(302)
+      res.writeHead(303, {location: '/loading.html'})
       var url = chunkedData.slice(4)
       console.log('Aye, this is me ' + url)
       fs.appendFile('./archives/sites.txt', url+'\n', function(){
