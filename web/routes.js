@@ -31,8 +31,9 @@ exports.post = {
     })
     req.on('end', function(){
       res.writeHead(201)
-      console.log(chunkedData)
-      res.end()
+      var url = chunkedData.slice(4)
+      console.log('Aye, this is me ' + url)
+      res.end('yo')
     })
   }
 }
