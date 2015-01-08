@@ -1,7 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
-
+var http = require('http')
 /*
  * You will need to reuse the same paths many times over in the course of this sprint.
  * Consider using the `paths` object below to store frequently used file paths. This way,
@@ -42,5 +42,30 @@ exports.isURLArchived = function(url, cb){
   fs.exists('./archives/sites' + url, cb)
 };
 
-exports.downloadUrls = function(){
-};
+exports.downloadUrls = function(url){
+  var req = http.request({hostname: url, method: 'GET', path: '/', port: '80'}, function(res){
+    console.log('STATUS: ' + res.statusCode)
+    console.log('HEADERS: ' + JSON.stringify(res.headers))
+    res.setEncoding('utf8')
+    var fullChunk = '';
+    res.on('data', function (chunk) {
+      fullChunk += chunk
+      console.log('BODY: ' + chunk)
+    })
+    res.on('end', function(){
+      console.log(fullChunk)
+      fs.writeFile('./archives/sites/' + url, fullChunk, function(err){
+        if(err){
+          throw err
+        } else{
+          console.log(url + ' have been saved!')
+        }
+      })
+    })
+  })
+  req.on('error', function(e) {
+    console.log('problem with request: ' + e.message);
+  })
+  req.end()
+}
+
