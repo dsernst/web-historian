@@ -5,6 +5,7 @@ var fs = require('fs');
 var archive = require("../helpers/archive-helpers");
 var path = require('path');
 var res;
+var betterPath = './archives/sites.txt'
 
 archive.initialize({
   list : path.join(__dirname, "/testdata/sites.txt")
@@ -65,7 +66,6 @@ describe("Node Server Request Listener Function", function() {
   });
 
   it("Should append submitted sites to 'sites.txt'", function(done) {
-    var betterPath = './archives/sites.txt'
     var url = "www.example.com";
     var req = new stubs.Request("/", "POST", {url: url});
 
@@ -108,7 +108,7 @@ describe("html fetcher helpers", function(){
     var urlArray = ["example1.com", "example2.com"];
     var resultArray;
 
-    fs.writeFileSync(archive.paths.list, urlArray.join("\n"));
+    fs.writeFileSync(betterPath, urlArray.join("\n"));
     archive.readListOfUrls(function(urls){
       resultArray = urls;
     });
